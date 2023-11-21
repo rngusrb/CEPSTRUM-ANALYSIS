@@ -81,10 +81,10 @@ def get_mean():
     mean_female=[]
     for n in ('a', 'e', 'i', 'o', 'u'):
         for gender in ('male','female'):
-            fs1, a1 = wavfile.read("./"+gender+"/normalized_data_"+gender+"_"+gender+"_0_"+n+".wav")
+            fs1, a1 = wavfile.read("./normalized_data/"+gender+"/"+gender+"_0_"+n+".wav")
             full_data = [0 for i in range(len(a1))]
             for i in ('0', '1', '2', '3', '4'):
-                name = "./"+gender+"/normalized_data_"+gender+"_"+gender+"_" + i + "_"+n+".wav"
+                name = "./normalized_data/"+gender+"/"+gender+"_"+i+"_"+n+".wav"
                 fs1, a2 = wavfile.read(name)
                 for i in range(len(a1)):
                     full_data[i] += a2[i]
@@ -301,7 +301,7 @@ def get_cepstrum_arrays():
     male_cepstrums, female_cepstrums = [], []
     for gender in ('male','female'):
         for i in ('a', 'e', 'i', 'o', 'u'):
-            name = "./"+gender+"/normalized_data_"+gender+"_"+gender+"_0_" + i + ".wav"
+            name = "./normalized_data/"+gender+"/"+gender+"_0_"+i+".wav"
             fs1, data = wavfile.read(name)
             if (gender=="male"):
                 male_cepstrums.append(compute_human_cepstrum(data))
@@ -330,7 +330,7 @@ get_mean()
     flist = []
     for gender in ('male', 'female'):
         for i in ('0', '1', '2', '3', '4'):
-            name = "./" + gender + "/normalized_data_" + gender + "_" + gender + "_" + i + "_"+n+".wav"
+            name = "./normalized_data/"+gender+"/"+gender+"_"+i+"_"+n+".wav"
             fs1, data = wavfile.read(name)
             if (gender == 'male'):
                 list.append(compute_human_cepstrum(data))
