@@ -76,6 +76,7 @@ def plot_signal_and_cepstrum(signal, cepstrum, fs, title):
     plt.tight_layout()
     plt.show()
 
+
 def get_mean():
     mean_male=[]
     mean_female=[]
@@ -256,8 +257,10 @@ def compare_two_mean_cepstrum(cepstrum1, cepstrum2, standard):
     plt.tight_layout()
     plt.show()
 
-def compare_all_cepstrum(cepstrum1, cepstrum2, cepstrum3,cepstrum4,cepstrum5):
+def compare_all_cepstrum(cepstrum1, cepstrum2, cepstrum3,cepstrum4,cepstrum5,idx):
     FS = 16000  # 샘플링 레이트를 가정합니다.
+    aa=['male','female']
+
     quefrency1 = np.arange(len(cepstrum1)) / FS
     quefrency2 = np.arange(len(cepstrum2)) / FS
     quefrency3 = np.arange(len(cepstrum3)) / FS
@@ -269,33 +272,37 @@ def compare_all_cepstrum(cepstrum1, cepstrum2, cepstrum3,cepstrum4,cepstrum5):
     # 첫 번째 켑스트럼 플롯
     ax1 = fig.add_subplot(5, 1, 1)
     ax1.plot(quefrency1, cepstrum1)
+    ax1.set_title(aa[idx] + " a")
     ax1.set_xlabel("Quefrency (s)")
     ax1.set_ylabel("Amplitude")
 
     # 두 번째 켑스트럼 플롯
     ax2 = fig.add_subplot(5, 1, 2)
     ax2.plot(quefrency2, cepstrum2)
+    ax2.set_title(aa[idx]+" e")
     ax2.set_xlabel("Quefrency (s)")
     ax2.set_ylabel("Amplitude")
 
     ax3 = fig.add_subplot(5, 1, 3)
     ax3.plot(quefrency3, cepstrum3)
+    ax3.set_title(aa[idx] + " i")
     ax3.set_xlabel("Quefrency (s)")
     ax3.set_ylabel("Amplitude")
 
     ax4 = fig.add_subplot(5, 1, 4)
     ax4.plot(quefrency4, cepstrum4)
+    ax4.set_title(aa[idx] + " o")
     ax4.set_xlabel("Quefrency (s)")
     ax4.set_ylabel("Amplitude")
 
     ax5 = fig.add_subplot(5, 1, 5)
     ax5.plot(quefrency5, cepstrum5)
+    ax5.set_title(aa[idx] + " u")
     ax5.set_xlabel("Quefrency (s)")
     ax5.set_ylabel("Amplitude")
 
     plt.tight_layout()
     plt.show()
-
 
 def get_cepstrum_arrays():
     male_cepstrums, female_cepstrums = [], []
@@ -312,8 +319,6 @@ def get_cepstrum_arrays():
         female_cepstrums,
     )
 
-
-
 (
     male_cepstrums,
     female_cepstrums,
@@ -321,11 +326,9 @@ def get_cepstrum_arrays():
 
 mean_male,mean_female=get_mean()
 
-get_mean()
-
-
-
-'''for n in ('a','e','i','o','u'):
+# 남자, 여자 각 성별의 (a,e,i,o,u)를 한 모음씩 세트로 비교
+'''
+for n in ('a','e','i','o','u'):
     list = []
     flist = []
     for gender in ('male', 'female'):
@@ -337,18 +340,24 @@ get_mean()
             elif (gender == 'female'):
                 flist.append(compute_human_cepstrum(data))
     compare_all_cepstrum(list[0], list[1], list[2], list[3], list[4])
-    compare_all_cepstrum(flist[0], flist[1], flist[2], flist[3], flist[4])'''
+    compare_all_cepstrum(flist[0], flist[1], flist[2], flist[3], flist[4])
+'''
 
+'''
+#남자 여자 각각의 (a,e,i,o,u) 데이터 성별 비교(아래 데이터는 남자(0),여자(0) 데이터 비교)
+compare_two_cepstrum(male_cepstrums[A], female_cepstrums[A], A)
+compare_two_cepstrum(male_cepstrums[E], female_cepstrums[E], E)
+compare_two_cepstrum(male_cepstrums[I], female_cepstrums[I], I)
+compare_two_cepstrum(male_cepstrums[O], female_cepstrums[O], O)
+compare_two_cepstrum(male_cepstrums[U], female_cepstrums[U], U)'''
 
-
+ #남자 여자 평균 (a,e,i,o,u) 데이터 다른 성별 비교
 compare_two_mean_cepstrum(mean_male[A], mean_female[A], A)
 compare_two_mean_cepstrum(mean_male[E], mean_female[E], E)
 compare_two_mean_cepstrum(mean_male[I], mean_female[I], I)
 compare_two_mean_cepstrum(mean_male[O], mean_female[O], O)
 compare_two_mean_cepstrum(mean_male[U], mean_female[U], U)
 
-'''compare_two_cepstrum(male_cepstrums[A], female_cepstrums[A], A)
-compare_two_cepstrum(male_cepstrums[E], female_cepstrums[E], E)
-compare_two_cepstrum(male_cepstrums[I], female_cepstrums[I], I)
-compare_two_cepstrum(male_cepstrums[O], female_cepstrums[O], O)
-compare_two_cepstrum(male_cepstrums[U], female_cepstrums[U], U)'''
+ #남자 여자 평균 (a,e,i,o,u)데이터를 같은 성별끼리 비교
+compare_all_cepstrum(mean_male[A],mean_male[E],mean_male[I],mean_male[O],mean_male[U],0)
+compare_all_cepstrum(female_cepstrums[A],female_cepstrums[E],female_cepstrums[I],female_cepstrums[O],female_cepstrums[U],1)
