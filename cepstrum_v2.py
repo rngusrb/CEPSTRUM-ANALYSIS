@@ -123,7 +123,7 @@ def compare_two_cepstrum(cepstrum1, cepstrum2, standard,idx):
 
     row_labels = ["male", "female"]
     column_labels = [
-        "Cepstral Peak Prominence",
+        "Cepstral Peak quefrency",
         "Mean / Standard",
         "Correlation",
         "Distances",
@@ -131,14 +131,14 @@ def compare_two_cepstrum(cepstrum1, cepstrum2, standard,idx):
     ]
     cell_text = [
         [
-            compute_cpp(cepstrum1),
+            quefrency1[np.argmax(cepstrum1)],
             compute_mean_std(cepstrum1),
             compute_correlation(cepstrum1, cepstrum2),
             compute_distances(cepstrum1, cepstrum2),
             perform_t_test(cepstrum1, cepstrum2),
         ],
         [
-            compute_cpp(cepstrum2),
+            quefrency2[np.argmax(cepstrum2)],
             compute_mean_std(cepstrum2),
             compute_correlation(cepstrum1, cepstrum2),
             compute_distances(cepstrum1, cepstrum2),
@@ -175,6 +175,8 @@ def compare_two_cepstrum(cepstrum1, cepstrum2, standard,idx):
     )
     table.scale(1, 2)  # 테이블 크기 조정 (폭, 높이)
 
+
+
     plt.tight_layout()
     plt.show()
 
@@ -202,7 +204,7 @@ def compare_two_mean_cepstrum(cepstrum1, cepstrum2, standard,idx):
 
     row_labels = ["male", "female"]
     column_labels = [
-        "Cepstral Peak Prominence",
+        "Cepstral Peak quefrency",
         "Mean / Standard",
         "Correlation",
         "Distances",
@@ -210,14 +212,14 @@ def compare_two_mean_cepstrum(cepstrum1, cepstrum2, standard,idx):
     ]
     cell_text = [
         [
-            compute_cpp(cepstrum1),
+            quefrency1[np.argmax(cepstrum1)],
             compute_mean_std(cepstrum1),
             compute_correlation(cepstrum1, cepstrum2),
             compute_distances(cepstrum1, cepstrum2),
             perform_t_test(cepstrum1, cepstrum2),
         ],
         [
-            compute_cpp(cepstrum2),
+            quefrency2[np.argmax(cepstrum2)],
             compute_mean_std(cepstrum2),
             compute_correlation(cepstrum1, cepstrum2),
             compute_distances(cepstrum1, cepstrum2),
@@ -228,6 +230,7 @@ def compare_two_mean_cepstrum(cepstrum1, cepstrum2, standard,idx):
     fig = plt.figure(figsize=(12, 10))
 
     # 첫 번째 켑스트럼 플롯
+
     ax1 = fig.add_subplot(4, 1, 1)
     ax1.plot(quefrency1, cepstrum1)
     ax1.set_title(f"Cepstrum - {title1}")
@@ -300,6 +303,18 @@ def compare_all_cepstrum(cepstrum1, cepstrum2, cepstrum3,cepstrum4,cepstrum5,idx
     ax5.set_title(aa[idx] + " u")
     ax5.set_xlabel("Quefrency (s)")
     ax5.set_ylabel("Amplitude")
+    a1 = 1 / quefrency2[np.argmax(cepstrum1)]
+    a2 = 1 / quefrency2[np.argmax(cepstrum2)]
+    a3 = 1 / quefrency2[np.argmax(cepstrum3)]
+    a4 = 1 / quefrency2[np.argmax(cepstrum4)]
+    a5 = 1 / quefrency2[np.argmax(cepstrum5)]
+
+    print(a1)
+    print(a2)
+    print(a3)
+    print(a4)
+    print(a5)
+    print("\n")
 
     plt.tight_layout()
     plt.show()
@@ -348,14 +363,28 @@ def compare_all_cepstrum_v2(cepstrum1, cepstrum2, cepstrum3,cepstrum4,cepstrum5,
     ax5.set_xlabel("Quefrency (s)")
     ax5.set_ylabel("Amplitude")
 
+    a1=1/quefrency2[np.argmax(cepstrum1)]
+    a2=1/quefrency2[np.argmax(cepstrum2)]
+    a3=1/quefrency2[np.argmax(cepstrum3)]
+    a4=1/quefrency2[np.argmax(cepstrum4)]
+    a5=1/quefrency2[np.argmax(cepstrum5)]
+
+    print(a1)
+    print(a2)
+    print(a3)
+    print(a4)
+    print(a5)
+    print((a1+a2+a3+a4+a5)/5)
+    print("\n")
     plt.tight_layout()
     plt.show()
+
 
 def get_cepstrum_arrays():
     male_cepstrums, female_cepstrums = [], []
     for gender in ('male','female'):
         for i in ('a', 'e', 'i', 'o', 'u'):
-            name = "./normalized_data/"+gender+"/"+gender+"_0_"+i+".wav"
+            name = "./normalized_data/"+gender+"/"+gender+"_4_"+i+".wav"
             fs1, data = wavfile.read(name)
             if (gender=="male"):
                 male_cepstrums.append(compute_human_cepstrum(data)[1])
@@ -373,12 +402,11 @@ def get_cepstrum_arrays():
 
 mean_male,mean_female=get_mean()
 
-# 남자, 여자 각 성별의 (a,e,i,o,u)를 한 모음씩 세트로 비교
-name = "./normalized_data/male/male_1_i.wav"
+
+name = "./normalized_data/male/male_0_a.wav"
 fs1, data = wavfile.read(name)
 i,a=compute_human_cepstrum(data)
-
-
+# 남자, 여자 각 성별의 (a,e,i,o,u)를 한 모음씩 세트로 비교
 '''
 for n in ('a','e','i','o','u'):
     midx=[]
@@ -405,7 +433,8 @@ compare_two_cepstrum(male_cepstrums[E], female_cepstrums[E], E,i)
 compare_two_cepstrum(male_cepstrums[I], female_cepstrums[I], I,i)
 compare_two_cepstrum(male_cepstrums[O], female_cepstrums[O], O,i)
 compare_two_cepstrum(male_cepstrums[U], female_cepstrums[U], U,i)
-
+'''
+'''
  #남자 여자 평균 (a,e,i,o,u) 다른 성별 비교
 compare_two_mean_cepstrum(mean_male[A], mean_female[A], A,i)
 compare_two_mean_cepstrum(mean_male[E], mean_female[E], E,i)
@@ -413,7 +442,8 @@ compare_two_mean_cepstrum(mean_male[I], mean_female[I], I,i)
 compare_two_mean_cepstrum(mean_male[O], mean_female[O], O,i)
 compare_two_mean_cepstrum(mean_male[U], mean_female[U], U,i)
 '''
+
  #남자 여자 평균 (a,e,i,o,u)데이터를 같은 성별끼리 비교
-compare_all_cepstrum(mean_male[A],mean_male[E],mean_male[I],mean_male[O],mean_male[U],0,i)
+compare_all_cepstrum(male_cepstrums[A],male_cepstrums[E],male_cepstrums[I],male_cepstrums[O],male_cepstrums[U],0,i)
 compare_all_cepstrum(female_cepstrums[A],female_cepstrums[E],female_cepstrums[I],female_cepstrums[O],female_cepstrums[U],1,i)
 
