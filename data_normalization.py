@@ -40,32 +40,37 @@ def bandpass_filter(audio, sr, low, high):
 import os
 import librosa
 
-for i in range(1, 3):
-    # 파일 경로 설정
-    if i == 1:
-        directory = "./raw_data/male"
-        processed_directory = "./normalized_data/male"
-    else:
-        directory = "./raw_data/female"
-        processed_directory = "./normalized_data/female"
-    # 파일 목록 가져오기
-    file_list = [f for f in os.listdir(directory) if f.endswith(".wav")]
-    # 처리된 데이터를 저장할 폴더 생성
-    os.makedirs(processed_directory, exist_ok=True)
+try:
+    for i in range(1, 3):
+        # 파일 경로 설정
+        if i == 1:
+            directory = "./raw_data/male"
+            processed_directory = "./normalized_data/male"
+        else:
+            directory = "./raw_data/female"
+            processed_directory = "./normalized_data/female"
+        # 파일 목록 가져오기
+        file_list = [f for f in os.listdir(directory) if f.endswith(".wav")]
+        # 처리된 데이터를 저장할 폴더 생성
+        os.makedirs(processed_directory, exist_ok=True)
 
-    for file in file_list:
-        # 파일 불러오기
-        path = os.path.join(directory, file)
-        audio, sr = librosa.load(path, sr=None)
+        for file in file_list:
+            # 파일 불러오기
+            path = os.path.join(directory, file)
+            audio, sr = librosa.load(path, sr=None)
 
-        # 정규화 및 처리 과정 수행
-        audio = normalize_amplitude(audio)
-        audio = resample_audio(audio, sr, target_sr=16000)  # 16000 Hz로 리샘플링
-        # audio = remove_noise(audio, 16000)  # 노이즈 제거보다 데이터 손실이 더 크기에 일단 제외
-        audio = trim_silence(audio, 16000)
-        audio = bandpass_filter(audio, 16000, low=300, high=3400)  # 300~3400 Hz 대역 필터링
-        audio = trim_or_pad_audio(audio, length=20000)  # 2초 길이로 정규화
+            # 정규화 및 처리 과정 수행
+            audio = normalize_amplitude(audio)
+            audio = resample_audio(audio, sr, target_sr=16000)  # 16000 Hz로 리샘플링
+            # audio = remove_noise(audio, 16000)  # 노이즈 제거보다 데이터 손실이 더 크기에 일단 제외
+            audio = trim_silence(audio, 16000)
+            audio = bandpass_filter(
+                audio, 16000, low=300, high=3400
+            )  # 300~3400 Hz 대역 필터링
+            audio = trim_or_pad_audio(audio, length=20000)  # 2초 길이로 정규화
 
-        # 처리된 데이터 저장
-        processed_path = os.path.join(processed_directory, file)
-        sf.write(processed_path, audio, 16000)
+            # 처리된 데이터 저장
+            processed_path = os.path.join(processed_directory, file)
+            sf.write(processed_path, audio, 16000)
+except Exception as e:
+    print(e)
