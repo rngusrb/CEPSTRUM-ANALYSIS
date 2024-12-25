@@ -20,6 +20,28 @@ def compute_cepstrum(signal):
     cepstrum = np.abs(ifft(log_amplitude))
     return cepstrum
 ```
+```
+def compute_human_cepstrum(xs):
+    cepstrum = compute_cepstrum(xs)
+    quefrencies = np.array(range(len(xs))) / 16000
+
+    # Filter values that are not within human pitch range
+    # highest frequency
+    period_lb = 1 / 270
+    # lowest frequency
+    period_ub = 1 / 70
+
+    cepstrum_filtered = []
+    quefrencies_filtered = []
+    for i, quefrency in enumerate(quefrencies):
+        if quefrency < period_lb or quefrency > period_ub:
+            continue
+
+        quefrencies_filtered.append(quefrency)
+        cepstrum_filtered.append(cepstrum[i])
+
+    return quefrencies_filtered, cepstrum_filtered
+```
 ---
 
 ## 결과
