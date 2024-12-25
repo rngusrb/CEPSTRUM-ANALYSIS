@@ -9,12 +9,12 @@
 ## CEPSTRUM
 
 
-def compute_cepstrum(signal):
-    spectrum = fft(signal)
-    epsilon = 1e-8
-    log_amplitude = np.log(np.absolute(spectrum + epsilon))
-    cepstrum = np.abs(ifft(log_amplitude))
-    return cepstrum
+   def compute_cepstrum(signal):
+       spectrum = fft(signal)
+       epsilon = 1e-8
+       log_amplitude = np.log(np.absolute(spectrum + epsilon))
+       cepstrum = np.abs(ifft(log_amplitude))
+       return cepstrum
 
 
 
