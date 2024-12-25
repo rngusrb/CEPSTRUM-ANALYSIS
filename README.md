@@ -42,7 +42,15 @@ def compute_human_cepstrum(xs):
 
     return quefrencies_filtered, cepstrum_filtered
 ```
-
+입력 신호의 고속 푸리에 변환(FT)
+스펙트럼의 절대값을 취한 후 자연로그 계산 # 역 FFT (FFT)를 적용하여 다시 캡스트럼 도메인으로 가져온다.
+- 사람에서 나올 수 있는 주파수 범위를 필터링하는 과정
+quefrency 배열을 생성 (주파수의 역수)
+인간의 음성에서 나오는 일반적인 주파수
+범위로 필터링
+period_ub:
+지정한 주파수 범위보다 높거나 낮으면 쓰지 않고 건너뛴다.
+범위 안에 속한 값은 리스트에 저장
 
 ## 결과
 ![image](https://github.com/user-attachments/assets/ea66b518-22d6-44d2-a4ca-f3cd0d2559ee)
