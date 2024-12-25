@@ -18,7 +18,7 @@
 
 
 
-```def compute_human_cepstrum(xs):
+def compute_human_cepstrum(xs):
     cepstrum = compute_cepstrum(xs)
     quefrencies = np.array(range(len(xs))) / 16000
 
@@ -37,7 +37,7 @@
         quefrencies_filtered.append(quefrency)
         cepstrum_filtered.append(cepstrum[i])
 
-    return quefrencies_filtered, cepstrum_filtered```
+    return quefrencies_filtered, cepstrum_filtered
 
 
 
