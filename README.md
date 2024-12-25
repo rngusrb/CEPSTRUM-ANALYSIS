@@ -15,10 +15,10 @@
     log_amplitude = np.log(np.absolute(spectrum + epsilon))
     # 로그 스펙트럼에 IFFT를 적용해 켑스트럼을 계산
     cepstrum = np.abs(ifft(log_amplitude))
-    return cepstrum
+    return cepstrum`
 
 
-def compute_human_cepstrum(xs):
+`def compute_human_cepstrum(xs):
     cepstrum = compute_cepstrum(xs)
     quefrencies = np.array(range(len(xs))) / 16000
 
