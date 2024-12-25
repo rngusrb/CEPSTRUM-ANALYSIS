@@ -7,15 +7,15 @@
 
 
 ## CEPSTRUM
-`def compute_cepstrum(signal):
+```def compute_cepstrum(signal):
     spectrum = fft(signal)
     epsilon = 1e-8
     log_amplitude = np.log(np.absolute(spectrum + epsilon))
     cepstrum = np.abs(ifft(log_amplitude))
-    return cepstrum`
+    return cepstrum```
 
 
-`def compute_human_cepstrum(xs):
+```def compute_human_cepstrum(xs):
     cepstrum = compute_cepstrum(xs)
     quefrencies = np.array(range(len(xs))) / 16000
 
@@ -34,7 +34,7 @@
         quefrencies_filtered.append(quefrency)
         cepstrum_filtered.append(cepstrum[i])
 
-    return quefrencies_filtered, cepstrum_filtered`
+    return quefrencies_filtered, cepstrum_filtered```
 
 ## 결과
 ![image](https://github.com/user-attachments/assets/ea66b518-22d6-44d2-a4ca-f3cd0d2559ee)
