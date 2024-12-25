@@ -46,3 +46,5 @@ def compute_human_cepstrum(xs):
 
 ## 결과
 ![image](https://github.com/user-attachments/assets/ea66b518-22d6-44d2-a4ca-f3cd0d2559ee)
+![image](https://github.com/user-attachments/assets/72633213-39d9-4735-9075-0b33b5e1def3)
+![Uploading image.png…]()
