@@ -42,7 +42,7 @@ def compute_human_cepstrum(xs):
 
     return quefrencies_filtered, cepstrum_filtered
 ```
----
+
 
 ## 결과
 ![image](https://github.com/user-attachments/assets/ea66b518-22d6-44d2-a4ca-f3cd0d2559ee)
