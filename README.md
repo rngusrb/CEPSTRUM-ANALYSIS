@@ -9,7 +9,8 @@
 ## CEPSTRUM
 
 
-```def compute_cepstrum(signal):
+```
+def compute_cepstrum(signal):
     # 신호에 FFT를 적용해 스펙트럼을 계산
     spectrum = fft(signal)
     # 스펙트럼의 로그 절댓값을 계산
