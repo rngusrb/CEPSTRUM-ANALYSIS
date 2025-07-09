@@ -2,19 +2,19 @@
 
 ## 프로젝트 개요
 
-해당 프로젝트는 음성 신호로부터 인간의 발화 특성을 추출하고자 **FFT 기반 캡스트럼 분석(Cepstrum Analysis)**을 수행한 실험 프로젝트입니다. 
-신호처리의 전처리 단계부터 고유한 주파수 영역 필터링까지 구현했으며, 남성과 여성, 그리고 모음 별 cepstrum 값을 정량적으로 비교하는 시각화 도구도 포함합니다.
+본 프로젝트는 인간의 발화 특성을 정량적으로 분석하기 위해 **FFT 기반 캡스트럼(Cepstrum) 분석**을 수행한 신호처리 기반 음성 인식 실험입니다. 
+음성 데이터를 전처리 및 정규화한 후, 고유 주파수 특성을 추출하고 시각화함으로써 남녀 음성 차이, 모음 간 주파수 패턴 등을 분석하였습니다.
 
 ---
 
 ## ⚙️ 전처리 및 정규화
 
-### 정규화가 필요한 이유
-- 데이터 간 단위 불일치 혹은 스케일 차이로 인해 모델의 왜곡 가능성
-- 스펙트럼 해석 전, 잡음을 제거하고 진폭 및 길이 표준화 필수
+### 정규화 이유
+- 특성 간 단위/범위 불일치로 인한 모델 학습 왜곡 방지
+- 발화 신호의 진폭, 노이즈, 길이 등 표준화 필요
 
-### 정규화 과정
-![정규화 코드](https://github.com/user-attachments/assets/d1073960-df81-48d9-a5d2-13fbb802b66c)
+### 주요 처리 흐름
+![정규화 코드](https://github.com/rngusrb/cepstrum-analysis/assets/d1073960-df81-48d9-a5d2-13fbb802b66c)
 
 ```python
 def normalize_amplitude(audio):
@@ -39,10 +39,10 @@ def trim_or_pad_audio(audio, length):
 
 ## 🔊 대역 통과 필터 적용
 
-- 왜곡 방지 및 음질 향상을 위해 발음에 관련된 주파수 대역만 통과
-- 주파수 범위: 80Hz ~ 4000Hz 사용
+- 왜곡 방지 및 음질 향상을 위한 주파수 선택 (예: 80Hz ~ 4000Hz)
+- 발화에 관련된 유효 주파수 영역 강조
 
-![밴드패스 필터](https://github.com/user-attachments/assets/b90f638a-3ac8-473f-921a-38e01c16a394)
+![밴드패스 필터](https://github.com/rngusrb/cepstrum-analysis/assets/b90f638a-3ac8-473f-921a-38e01c16a394)
 
 ```python
 def bandpass_filter(audio, sr, low, high):
@@ -57,7 +57,7 @@ def bandpass_filter(audio, sr, low, high):
 
 ## 🧠 캡스트럼 분석 과정
 
-![캡스트럼 계산](https://github.com/user-attachments/assets/1c5b7b04-f53e-4f3c-a5ac-c51912e01d87)
+![캡스트럼 계산](https://github.com/rngusrb/cepstrum-analysis/assets/1c5b7b04-f53e-4f3c-a5ac-c51912e01d87)
 
 ```python
 def compute_cepstrum(signal):
@@ -84,29 +84,29 @@ def compute_human_cepstrum(xs):
 
 ---
 
-## 📈 시각화 및 비교 분석
+## 📊 분석 결과 및 인사이트
 
-![캡스트럼 비교](https://github.com/user-attachments/assets/42dd6fb7-1fec-4fb5-87fc-3c94591958c1)
-![종합 그래프](https://github.com/user-attachments/assets/5789a474-7223-4b36-a29b-6d31045a9454)
+### 남녀 음성 비교
+- 기본 주파수 범위:
+  - 남성: 109~120Hz
+  - 여성: 209~223Hz
+- 남성은 낮은 음역대, 여성은 높은 음역대에 해당하는 경향
 
-- 각 모음(a, e, i, o, u)에 대한 남성/여성의 cepstrum 분석값 시각화
-- 특정 주파수 패턴이 성별/모음에 따라 다르게 나타나는지 확인
-- `compare_all_cepstrum()`, `plot_signal_and_cepstrum()` 등으로 구현
+### 모음 간 비교
+- 남성과 여성 모두 `e`, `i` 모음이 높은 주파수 값을 가짐
+- `o`, `u`, `a` 계열은 상대적으로 낮고 유사한 값 분포
+- 이로 인해 `e`, `i`, `o`, `u`, `a`의 이동 경로가 음성공간 상 하나의 벡터 방향처럼 나타남
+
+![분석 종합 결과](https://github.com/rngusrb/cepstrum-analysis/assets/23f0b140-ef2e-48f9-8da3-ba10ba152568)
+
+> 위 결과는 사람의 발음 구조적 차이, 성별의 생리학적 특성, 그리고 데이터 구성에 따른 정량적 특징을 모두 반영함
 
 ---
 
-## 🧪 정량적 평가 지표
+## 📈 시각화 예시
 
-- 평균 cepstrum 값, 분산
-- quefrency 영역별 집중도 비교
-- 남성/여성 음성의 특이성 판단 가능
-
----
-
-## 📝 결론
-
-본 프로젝트는 음성 데이터의 특징 추출을 위해 신호처리 기반의 전처리 및 캡스트럼 분석을 수행하였으며, 
-정규화 → 필터링 → FFT/IFFT → 사람의 발화 범위 필터링 → 시각화의 일련의 흐름을 코드로 구현했습니다.
+![캡스트럼 비교](https://github.com/rngusrb/cepstrum-analysis/assets/42dd6fb7-1fec-4fb5-87fc-3c94591958c1)
+![종합 그래프](https://github.com/rngusrb/cepstrum-analysis/assets/5789a474-7223-4b36-a29b-6d31045a9454)
 
 ---
 
@@ -120,3 +120,11 @@ def compute_human_cepstrum(xs):
 | `data_normalization.py` | 전처리 및 정규화 파이프라인 코드 |
 | `quantitative_eval.py` | 시각화 및 정량 분석용 스크립트 |
 | `main.py` | 전체 실험 실행 메인 파일 |
+
+---
+
+## 🔍 주요 학습 포인트
+- FFT, IFFT를 활용한 신호 분석의 이론 및 구현 경험
+- 주파수 필터링, 스펙트럼 해석 등 정량적 신호처리 기법 실습
+- 음성 기반 데이터의 정규화 및 시각화 흐름 전반 숙지
+
