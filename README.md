@@ -14,7 +14,6 @@
 - 발화 신호의 진폭, 노이즈, 길이 등 표준화 필요
 
 ### 주요 처리 흐름
-![정규화 코드](https://github.com/rngusrb/cepstrum-analysis/assets/d1073960-df81-48d9-a5d2-13fbb802b66c)
 
 ```python
 def normalize_amplitude(audio):
@@ -42,7 +41,6 @@ def trim_or_pad_audio(audio, length):
 - 왜곡 방지 및 음질 향상을 위한 주파수 선택 (예: 80Hz ~ 4000Hz)
 - 발화에 관련된 유효 주파수 영역 강조
 
-![밴드패스 필터](https://github.com/rngusrb/cepstrum-analysis/assets/b90f638a-3ac8-473f-921a-38e01c16a394)
 
 ```python
 def bandpass_filter(audio, sr, low, high):
@@ -56,8 +54,6 @@ def bandpass_filter(audio, sr, low, high):
 ---
 
 ## 🧠 캡스트럼 분석 과정
-
-![캡스트럼 계산](https://github.com/rngusrb/cepstrum-analysis/assets/1c5b7b04-f53e-4f3c-a5ac-c51912e01d87)
 
 ```python
 def compute_cepstrum(signal):
@@ -97,7 +93,6 @@ def compute_human_cepstrum(xs):
 - `o`, `u`, `a` 계열은 상대적으로 낮고 유사한 값 분포
 - 이로 인해 `e`, `i`, `o`, `u`, `a`의 이동 경로가 음성공간 상 하나의 벡터 방향처럼 나타남
 
-![분석 종합 결과](https://github.com/rngusrb/cepstrum-analysis/assets/23f0b140-ef2e-48f9-8da3-ba10ba152568)
 
 > 위 결과는 사람의 발음 구조적 차이, 성별의 생리학적 특성, 그리고 데이터 구성에 따른 정량적 특징을 모두 반영함
 
@@ -105,8 +100,9 @@ def compute_human_cepstrum(xs):
 
 ## 📈 시각화 예시
 
-![캡스트럼 비교](https://github.com/rngusrb/cepstrum-analysis/assets/42dd6fb7-1fec-4fb5-87fc-3c94591958c1)
-![종합 그래프](https://github.com/rngusrb/cepstrum-analysis/assets/5789a474-7223-4b36-a29b-6d31045a9454)
+<img width="920" alt="{0F1E65B4-ACAB-4D7D-908F-BF1CF63459A3}" src="https://github.com/user-attachments/assets/6e9db592-bfcd-41f6-8aaa-be12c9eb6d14" />
+
+<img width="940" alt="{46873086-B413-4E8A-8CE0-F3E2F373F315}" src="https://github.com/user-attachments/assets/bf558445-f7f7-4c23-a817-c6a687859296" />
 
 ---
 
